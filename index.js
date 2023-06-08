@@ -26,7 +26,8 @@ app.get('/city', (req, res) => {
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 const prettify = data => {
-	let parsedData = data['data']['$return_value']
+	let parsedData = data.data
+	console.log(parsedData)
 	const { temp } = parsedData.main
 	const place = parsedData.name
 	const { description, icon } = parsedData.weather[0]
@@ -34,7 +35,7 @@ const prettify = data => {
 	// данные вытащенные из json для последующего вывода
 
 	const iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`
-	const celcium = Math.round(temp - 273)
+	const celcium = Math.round(temp)
 
 	// конвертирование в формат GMT
 	const sunriseGMT = new Date(sunrise * 1000)
