@@ -5,13 +5,18 @@ const fetch = require('node-fetch')
 const app = express()
 const port = 4200
 
-const fetchWeather = async () => {
-	const res = await axios.get(process.env.API_URL)
+const fetchWeatherByCity = async city => {
+	let capitalize = s => (s = s.charAt(0).toUpperCase() + s.slice(1))
+	const url = `https://api.openweathermap.org/data/2.5/weather?q=${capitalize(
+		city
+	)}&appid=${process.env.API_KEY}&units=metric`
+
+	const res = await axios.get(url)
 	return { status: res.status, data: res.data, st: res.statusText }
 }
-
-app.get('/', (req, res) => {
-	fetchWeather()
+// city route
+app.get('/city', (req, res) => {
+	fetchWeatherByCity(req.query.city)
 		.then(r => {
 			let pr = prettify(r)
 			res.send(pr)
@@ -37,3 +42,19 @@ const prettify = data => {
 
 	return { celcium, place, description, icon, sunriseGMT, sunsetGMT, iconUrl }
 }
+
+const fetchWeatherByCoords = async (long, lat) => {
+	const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${process.env.API_KEY}&units=metric`
+
+	const res = await axios.get(url)
+	return { status: res.status, data: res.data, st: res.statusText }
+}
+
+app.get('/coords', (req, res) => {
+	fetchWeatherByCoords(req.query.long, req.query.lat)
+		.then(r => {
+			let pr = prettify(r)
+			res.send(pr)
+		})
+		.catch(console.log)
+})
