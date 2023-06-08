@@ -3,7 +3,7 @@ const express = require('express')
 let dotenv = require('dotenv').config()
 const fetch = require('node-fetch')
 const app = express()
-const port = 4200
+const port = 8080
 
 const fetchWeatherByCity = async city => {
 	let capitalize = s => (s = s.charAt(0).toUpperCase() + s.slice(1))
