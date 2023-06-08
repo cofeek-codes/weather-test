@@ -27,7 +27,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 const prettify = data => {
 	let parsedData = data.data
-	console.log(parsedData)
 	const { temp } = parsedData.main
 	const place = parsedData.name
 	const { description, icon } = parsedData.weather[0]
@@ -36,11 +35,18 @@ const prettify = data => {
 
 	const iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`
 	const celcium = Math.round(temp)
-
 	// конвертирование в формат GMT
 	const sunriseGMT = new Date(sunrise * 1000)
 	const sunsetGMT = new Date(sunset * 1000)
-
+	console.log({
+		celcium,
+		place,
+		description,
+		icon,
+		sunriseGMT,
+		sunsetGMT,
+		iconUrl,
+	})
 	return { celcium, place, description, icon, sunriseGMT, sunsetGMT, iconUrl }
 }
 
