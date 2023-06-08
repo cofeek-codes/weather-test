@@ -16,14 +16,14 @@ const fetchWeatherByCity = async city => {
 }
 // city route
 app.get('/city', (req, res) => {
+	res.set('Access-Control-Allow-Origin', '*')
 	fetchWeatherByCity(req.query.city)
 		.then(r => {
 			let pr = prettify(r)
 			res.send(pr)
 		})
-		.catch(console.log)
+		.catch(e => res.send(e))
 })
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 const prettify = data => {
 	let parsedData = data.data
@@ -58,10 +58,13 @@ const fetchWeatherByCoords = async (long, lat) => {
 }
 
 app.get('/coords', (req, res) => {
+	res.set('Access-Control-Allow-Origin', '*')
 	fetchWeatherByCoords(req.query.long, req.query.lat)
 		.then(r => {
 			let pr = prettify(r)
-			res.send(pr)
+			res.json(pr)
 		})
 		.catch(console.log)
 })
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
